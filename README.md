@@ -41,8 +41,11 @@ docker run -p 3000:3000 goldenowl-app
 Once running, test it using:
 
 curl http://localhost:3000
+
 → {"message":"Welcome warriors to Golden Owl!"}
+
 This confirms the application is working correctly inside a Docker container.
+
 ---
 ## ⚙️ CI/CD Workflow
 The continuous integration and deployment workflow is implemented using GitHub Actions. The workflow is triggered automatically on code pushes and branch merges.
@@ -93,8 +96,9 @@ After deployment, the live app is available at:
 🔗 https://goldenowl-app-981542288355.us-west4.run.app/
 
 Expected response:
-```
 {"message": "Welcome warriors to Golden Owl!"}
+```
+
 ---
 
 ## 📈 Auto Scaling & Load Balancer
