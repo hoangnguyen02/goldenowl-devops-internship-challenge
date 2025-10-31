@@ -72,3 +72,7 @@ Live App URL:
 Expected Response:
 
 {"message": "Welcome warriors to Golden Owl!"}
+
+## 🧭 CI/CD Pipeline Overview
+
+![Pipeline Diagram](./visual-flow-diagram.png)
