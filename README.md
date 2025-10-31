@@ -76,9 +76,7 @@ Cloud Run provides:
 🔒 Public HTTPS endpoint
 
 The deployment command is automated in the pipeline using:
-
-bash
-Sao chép mã
+```
 gcloud run deploy goldenowl-app \
   --image docker.io/hoangnguyen02/goldenowl-app:latest \
   --region us-west4 \
@@ -95,9 +93,7 @@ After deployment, the live app is available at:
 🔗 https://goldenowl-app-981542288355.us-west4.run.app/
 
 Expected response:
-
-json
-Sao chép mã
+```
 {"message": "Welcome warriors to Golden Owl!"}
 ---
 
@@ -119,11 +115,11 @@ Example: If concurrency=10 and 100 simultaneous requests arrive, Cloud Run will 
 The diagram above illustrates the workflow:
 
 Developer pushes code to GitHub
-GitHub Actions triggers the pipeline (Build → Test → Deploy)
-The Docker image is built and pushed to DockerHub
-Cloud Run pulls the latest image and deploys it automatically
-Traffic is routed through Google Cloud Load Balancer
-Cloud Run scales up or down based on real-time request volume
+ - GitHub Actions triggers the pipeline (Build → Test → Deploy)
+ - The Docker image is built and pushed to DockerHub
+ - Cloud Run pulls the latest image and deploys it automatically
+ - Traffic is routed through Google Cloud Load Balancer
+ - Cloud Run scales up or down based on real-time request volume
 ---
 
 ## 🧠 Summary
