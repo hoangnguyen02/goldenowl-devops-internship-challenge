@@ -8,6 +8,7 @@ It demonstrates a complete CI/CD pipeline built with **GitHub Actions**, **Docke
 ## 🌟 Mission Overview
 
 The objective of this challenge is to:
+
 1. **Fork** the original repository:  
    [https://github.com/hoangnguyen02/goldenowl-devops-internship-challenge](https://github.com/hoangnguyen02/goldenowl-devops-internship-challenge)
 2. **Dockerize** a Node.js application.
@@ -34,13 +35,12 @@ COPY src .
 EXPOSE 3000
 CMD ["npm", "start"]
 
-✅ To build & run locally:
+To build & run locally:
 docker build -t goldenowl-app .
 docker run -p 3000:3000 goldenowl-app
 
 
 Then test with:
-
 curl http://localhost:3000
 # → {"message":"Welcome warriors to Golden Owl!"}
 
@@ -50,29 +50,27 @@ The CI/CD pipeline is implemented using GitHub Actions
 (file: .github/workflows/deployment.yml).
 
 🔄 Workflow Breakdown
-Job	    Description	                                                    Trigger
-Build	Build Docker image from Dockerfile and push to DockerHub	    On every push
-Test	Run npm test to validate application endpoints	                On every push
-Deploy	Deploy image to Google Cloud Run	                            Only when pushing/merging to master
+Job	Description	                                                   Trigger
+Build	Build Docker image from Dockerfile and push to DockerHub	      On every push
+Test	Run npm test to validate application endpoints	               On every push
+Deploy	Deploy image to Google Cloud Run	                           Only when pushing/merging to master
 
 🧠 Branch Logic
 feature/* → CI only (Build + Test)
 master → Full CD (Build + Deploy)
 
 ☁️ Deployment
-
 The app is deployed using Google Cloud Run, a fully managed service by Google Cloud that provides:
-Built-in Load Balancing
-Auto Scaling (from 0 to N instances)
-Public HTTPS endpoint
 
+✅ Built-in Load Balancing
+⚡ Auto Scaling (from 0 to N instances)
+
+🔒 Public HTTPS endpoint
 Live App URL:
 🔗 https://goldenowl-app-981542288355.us-west4.run.app/
 
 Expected Response:
-
 {"message": "Welcome warriors to Golden Owl!"}
 
-## 🧭 CI/CD Pipeline Overview
-
-![Pipeline Diagram](./image/visual-flow-diagram.png)
+CI/CD Pipeline Overview
+<p align="center"> <img src="./image/visual-flow-diagram.png" width="800" alt="CI/CD Pipeline Diagram"> </p> ```
