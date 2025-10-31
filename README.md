@@ -75,4 +75,4 @@ Expected Response:
 
 ## 🧭 CI/CD Pipeline Overview
 
-![Pipeline Diagram](./visual-flow-diagram.png)
+![Pipeline Diagram](./image/visual-flow-diagram.png)
