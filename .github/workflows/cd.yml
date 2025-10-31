@@ -82,11 +82,15 @@ jobs:
             --region $REGION \
             --platform managed \
             --allow-unauthenticated \
+            --min-instances 1 \
+            --max-instances 10 \
+            --concurrency 50 \
+            --cpu 1 \
+            --memory 512Mi \
             --quiet
 
       - name: Show deployed URL
         run: |
-          echo "✅ Deployed successfully:"
           gcloud run services describe $SERVICE_NAME \
             --region $REGION \
             --format='value(status.url)'
