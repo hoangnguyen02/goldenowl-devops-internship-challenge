@@ -57,7 +57,7 @@ Deploy	Deploy image to Google Cloud Run	                            Only when pu
 
 🧠 Branch Logic
 feature/* → CI only (Build + Test)
-master → Full CI/CD (Build + Test + Deploy)
+master → Full CD (Build + Deploy)
 
 ☁️ Deployment
 
