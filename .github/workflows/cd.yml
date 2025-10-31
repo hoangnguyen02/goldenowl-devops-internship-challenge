@@ -1,0 +1,60 @@
+name: CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  REGION: us-west4
+  SERVICE_NAME: goldenowl-app
+  DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/goldenowl-app
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push Docker image
+        run: |
+          IMAGE_TAG=${{ github.sha }}
+          docker build -t $DOCKER_IMAGE:$IMAGE_TAG -t $DOCKER_IMAGE:latest .
+          docker push $DOCKER_IMAGE:$IMAGE_TAG
+          docker push $DOCKER_IMAGE:latest
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY_JSON }}
+
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy $SERVICE_NAME \
+            --image docker.io/$DOCKER_IMAGE:${{ env.IMAGE_TAG }} \
+            --region $REGION \
+            --platform managed \
+            --allow-unauthenticated \
+            --quiet
+
+      - name: Show deployed URL
+        run: |
+          echo "✅ Deployed successfully:"
+          gcloud run services describe $SERVICE_NAME \
+            --region $REGION \
+            --format='value(status.url)'
