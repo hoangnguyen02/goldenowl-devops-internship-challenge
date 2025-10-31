@@ -1,45 +1,74 @@
-# Golden Owl DevOps Internship - Technical Test
-At Golden Owl, we believe in treating infrastructure as code and automating resource provisioning to the fullest extent possible. 
+# 🦉 Golden Owl DevOps Internship - Technical Test
 
-In this technical test, we challenge you to create a robust CI build pipeline using GitHub Actions. You have the freedom to complete this test in your local environment.
+This repository is my submission for the **Golden Owl DevOps Internship Technical Test**.  
+It demonstrates a complete CI/CD pipeline built with **GitHub Actions**, **Docker**, and **Google Cloud Run**.
 
-## Your Mission 🌟
-Your mission, should you choose to accept it, is to craft a CI job that:
-1. Forks this repository to your personal GitHub account.
-2. Dockerizes a Node.js application.
-3. Establishes an automated CI/CD build process using GitHub Actions workflow and a container registry service such as DockerHub or Amazon Elastic Container Registry (ECR) or similar services.
-4. Initiates CI tests automatically when changes are pushed to the feature branch on GitHub.
-5. Utilizes GitHub Actions for Continuous Deployment (CD) to deploy the application to major cloud providers like AWS EC2, AWS ECS or Google Cloud (please submit the deployment link).
-## Nice to have 🎨
-We would be genuinely delighted if you could complement your submission with a `visual flow diagram`, illustrating the sequence of tasks you performed, including the implementation of a `load balancer` and `auto scaling` for the deployed application. This additional touch would greatly enhance our understanding and appreciation of your work.
+---
 
-Reference tools for creating visual flow diagrams:
-- https://www.drawio.com/
-- https://excalidraw.com/
-- https://www.eraser.io/
-  
-Including a visual representation of your workflow will provide valuable insights into your approach and make your submission stand out. Thank you for considering this enhancement! 
-## The Bigger Picture 🌏
-This test is designed to evaluate your ability to implement modern automated infrastructure practices while demonstrating a basic understanding of Docker containers. In your solution, we encourage you to prioritize readability, maintainability, and the principles of DevOps.
+## 🌟 Mission Overview
 
- ## Submission Guidelines 📬
-Your solution should be showcased in a public GitHub repository. We encourage you to commit early and often. We prefer to see a history of iterative progress rather than a single massive push. When you've completed the assignment, kindly share the URL of your repository with us.
+The objective of this challenge is to:
+1. **Fork** the original repository:  
+   [https://github.com/hoangnguyen02/goldenowl-devops-internship-challenge](https://github.com/hoangnguyen02/goldenowl-devops-internship-challenge)
+2. **Dockerize** a Node.js application.
+3. **Implement an automated CI/CD pipeline** using **GitHub Actions**.
+4. **Run CI tests** automatically when changes are pushed to any `feature/*` branch.
+5. **Deploy automatically (CD)** to **Google Cloud Run** when merged into the `master` branch.
 
- ## Running the Node.js Application Locally  🏃‍♂️
- This is a Node.js application, and running it locally is straightforward:
-- Navigate to the `src` directory by executing `cd src`.
-- Install the project's dependencies listed in the package.json file by running `npm i`.
-- Execute `npm test` to run the application's tests.
-- Start the HTTP server with `npm start`.
+---
 
-You can test it using the following command:
-  
-```shell
-curl localhost:3000
-```
-You should receive the following response:
-```json
-{"message":"Welcome warriors to Golden Owl!"}
-```
+## 🐳 Dockerization
 
-Are you ready to embark on this DevOps journey with us? 🚀 Best of luck with your assignment! 🌟
+The application was containerized using the following `Dockerfile`:
+
+```dockerfile
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY src/package*.json ./
+RUN npm install --production
+
+COPY src .
+
+EXPOSE 3000
+CMD ["npm", "start"]
+
+✅ To build & run locally:
+docker build -t goldenowl-app .
+docker run -p 3000:3000 goldenowl-app
+
+
+Then test with:
+
+curl http://localhost:3000
+# → {"message":"Welcome warriors to Golden Owl!"}
+
+⚙️ CI/CD Workflow
+
+The CI/CD pipeline is implemented using GitHub Actions
+(file: .github/workflows/deployment.yml).
+
+🔄 Workflow Breakdown
+Job	    Description	                                                    Trigger
+Build	Build Docker image from Dockerfile and push to DockerHub	    On every push
+Test	Run npm test to validate application endpoints	                On every push
+Deploy	Deploy image to Google Cloud Run	                            Only when pushing/merging to master
+
+🧠 Branch Logic
+feature/* → CI only (Build + Test)
+master → Full CI/CD (Build + Test + Deploy)
+
+☁️ Deployment
+
+The app is deployed using Google Cloud Run, a fully managed service by Google Cloud that provides:
+Built-in Load Balancing
+Auto Scaling (from 0 to N instances)
+Public HTTPS endpoint
+
+Live App URL:
+🔗 https://goldenowl-app-981542288355.us-west4.run.app/
+
+Expected Response:
+
+{"message": "Welcome warriors to Golden Owl!"}
