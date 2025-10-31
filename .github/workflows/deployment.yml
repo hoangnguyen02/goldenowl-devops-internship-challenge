@@ -90,7 +90,7 @@ jobs:
       - name: Deploy App to Cloud Run
         run: |
           gcloud run deploy goldenowl-app \
-            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/goldenowl-app:latest \
+            --image docker.io/hoangnguyen02/goldenowl-app:latest \
             --platform managed \
             --region us-west4 \
             --allow-unauthenticated
