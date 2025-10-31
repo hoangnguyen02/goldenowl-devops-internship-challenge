@@ -3,17 +3,16 @@
 # Author: hoangnguyen02
 # ================================
 
-name: CI/CD Pipeline - GoldenOwl App
+name: CI/CD Pipeline
 
 on:
   push:
     branches:
       - master
-      - feature/*
   workflow_dispatch:
 
 env:
-  DOCKER_IMAGE: hoangnguyen02/goldenowl-app
+  DOCKER_IMAGE: ${{ secrets.DOCKER_NAME }}/goldenowl-app
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
 
 # ================================
