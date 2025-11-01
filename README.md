@@ -35,7 +35,7 @@ COPY src .
 EXPOSE 3000
 CMD ["npm", "start"]
 To build and run the application locally, execute the following commands:
-```
+
 docker build -t goldenowl-app .
 docker run -p 3000:3000 goldenowl-app
 Once running, test it using:
@@ -45,7 +45,7 @@ curl http://localhost:3000
 → {"message":"Welcome warriors to Golden Owl!"}
 
 This confirms the application is working correctly inside a Docker container.
-
+```
 ---
 ## ⚙️ CI/CD Workflow
 The continuous integration and deployment workflow is implemented using GitHub Actions. The workflow is triggered automatically on code pushes and branch merges.
@@ -77,9 +77,9 @@ Cloud Run provides:
 ⚡ Auto Scaling from zero to many container instances
 
 🔒 Public HTTPS endpoint
-
-The deployment command is automated in the pipeline using:
 ```
+The deployment command is automated in the pipeline using:
+
 gcloud run deploy goldenowl-app \
   --image docker.io/hoangnguyen02/goldenowl-app:latest \
   --region us-west4 \
